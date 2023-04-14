@@ -3,7 +3,9 @@ package com.alina.clockanimation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.alina.clockanimation.ui.theme.ClockAnimationTheme
+import androidx.navigation.compose.rememberNavController
+import com.alina.clockanimation.navigation.ClockAnimationNavHost
+import com.alina.clockanimation.presentation.ui.theme.ClockAnimationTheme
 
 class MainActivity : ComponentActivity() {
 
@@ -11,7 +13,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ClockAnimationTheme {
-                MainScreen()
+                val navController = rememberNavController()
+                ClockAnimationNavHost(navController = navController)
             }
         }
     }

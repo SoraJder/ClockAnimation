@@ -1,23 +1,24 @@
 package com.alina.clockanimation.composables
 
+import android.graphics.Paint
+import android.graphics.Rect
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.center
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
-import androidx.compose.ui.text.ExperimentalTextApi
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.drawText
-import androidx.compose.ui.text.rememberTextMeasurer
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
 import java.util.*
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sin
 
-@OptIn(ExperimentalTextApi::class)
 @Composable
 fun AnalogClock(
     backgroundColor: Color = colors.onBackground,
@@ -30,8 +31,7 @@ fun AnalogClock(
     timeInMillis: () -> Long,
 ) {
 
-    val textMeasurer = rememberTextMeasurer()
-    val color = colors.onBackground
+    val color = colors.background
 
     val date = Date(timeInMillis.invoke())
     val calendar = Calendar.getInstance().apply {
@@ -63,40 +63,46 @@ fun AnalogClock(
             center = canvasCenter
         )
 
-        val minuteMarkerLength = circleRadius / 15f
-        repeat(60) {
-            rotate((it / 60f) * 360) {
-                val start = center - Offset(0f, circleRadius)
-                val end = start + Offset(0f, minuteMarkerLength)
-                drawLine(
-                    color = minuteMarkersColor,
-                    start = start,
-                    end = end,
-                    strokeWidth = 6f
-                )
-            }
-        }
+        val angleDegreeDifference = (360f / 60f)
+        (1..60).forEach {
+            val angleRadDifference =
+                (((angleDegreeDifference * it) - 90f) * (PI / 180f)).toFloat()
+            val lineLength = if (it % 5 == 0) circleRadius * .85f else circleRadius * .93f
+            val lineColour = if (it % 5 == 0)  hourMarkersColor else minuteMarkersColor
+            val lineWidth = if(it%5==0) 6f else 4f
+            val startOffsetLine = Offset(
+                x = lineLength * cos(angleRadDifference) + size.center.x,
+                y = lineLength * sin(angleRadDifference) + size.center.y
+            )
+            val endOffsetLine = Offset(
+                x = (circleRadius - ((circleRadius * .05f) / 2) ) * cos(angleRadDifference) + size.center.x,
+                y = (circleRadius - ((circleRadius * .05f) / 2) ) * sin(angleRadDifference) + size.center.y
+            )
+            drawLine(
+                color = lineColour,
+                start = startOffsetLine,
+                end = endOffsetLine,
+                strokeWidth = lineWidth
+            )
+            if (it % 5 == 0) {
+                //here we are using the native canvas (native canvas is the traditional one we use dto work with the views), so that we can draw text on the canvas
+                drawContext.canvas.nativeCanvas.apply {
+                    val positionX = (circleRadius * .75f) * cos(angleRadDifference) + size.center.x
+                    val positionY = (circleRadius * .75f) * sin(angleRadDifference) + size.center.y
+                    val text = (it / 5).toString()
+                    val paint = Paint()
+                    paint.textSize = circleRadius * .15f
+                    paint.color = color.toArgb()
+                    val textRect = Rect()
+                    paint.getTextBounds(text, 0, text.length, textRect)
 
-        val hourMarkerLength = circleRadius / 10f
-        repeat(12) {
-            rotate((it / 12f) * 360) {
-                val start = center - Offset(0f, circleRadius)
-                val end = start + Offset(0f, hourMarkerLength)
-                drawLine(
-                    color = hourMarkersColor,
-                    start = start,
-                    end = end,
-                    strokeWidth = 10f
-                )
-                drawText(
-                    textMeasurer = textMeasurer,
-                    text = it.toString(),
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        color = color,
-                    ),
-                    topLeft = Offset.Zero
-                )
+                    drawText(
+                        text,
+                        positionX - (textRect.width() / 2),
+                        positionY + (textRect.width() / 2),
+                        paint
+                    )
+                }
             }
         }
 

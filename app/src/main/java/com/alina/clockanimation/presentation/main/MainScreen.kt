@@ -1,4 +1,4 @@
-package com.alina.clockanimation
+package com.alina.clockanimation.presentation.main
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -11,15 +11,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import com.alina.clockanimation.R
 import com.alina.clockanimation.composables.AnalogClock
 import com.alina.clockanimation.composables.ColorDialog
 import com.alina.clockanimation.model.hoursMinutesColorList
 import com.alina.clockanimation.model.secondColorList
-import com.alina.clockanimation.ui.theme.Typography
+import com.alina.clockanimation.navigation.Screens
+import com.alina.clockanimation.presentation.ui.theme.Typography
 import kotlinx.coroutines.delay
 
 @Composable
-fun MainScreen() {
+fun MainScreen(navController: NavController) {
     var time by remember { mutableStateOf(System.currentTimeMillis()) }
     val viewModel = viewModel { MainViewModel() }
 
@@ -54,7 +57,8 @@ fun MainScreen() {
         Text(
             text = "Clock Animation",
             style = Typography.h4,
-            color = MaterialTheme.colors.primary
+            color = MaterialTheme.colors.primary,
+            modifier = Modifier.padding(16.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -149,6 +153,10 @@ fun MainScreen() {
                 timeInMillis = { time }
             )
         }
+        
+        Button(onClick = { navController.navigate(Screens.TIMER_SCREEN_ROUTE) }) {
+            Text(text = "Navigate")
+        }
 
         when (dialogHourHandState.value) {
             true -> {
@@ -220,7 +228,7 @@ fun MainScreen() {
                 ColorDialog(
                     colors = hoursMinutesColorList,
                     onColorSelected = { color ->
-                        viewModel.updateSecondHandColor(color)
+                        viewModel.updateMinuteMarkColor(color)
                         dialogMinuteMarkState.value = false
                     },
                     onDismissRequest = {

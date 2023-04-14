@@ -1,4 +1,4 @@
-package com.alina.clockanimation
+package com.alina.clockanimation.presentation.main
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
