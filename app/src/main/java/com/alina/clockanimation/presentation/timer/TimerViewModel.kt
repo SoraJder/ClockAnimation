@@ -15,9 +15,6 @@ class TimerViewModel : ViewModel() {
     private val _second: MutableState<Int> = mutableStateOf(0)
     val second: State<Int> = _second
 
-    private val _remainingTime: MutableState<Int> = mutableStateOf(0)
-    val remainingTime: State<Int> = _remainingTime
-
     fun updateHour(hour: Int) {
         _hour.value = hour
     }
@@ -28,9 +25,5 @@ class TimerViewModel : ViewModel() {
 
     fun updateSecond(second: Int) {
         _second.value = second
-    }
-
-    fun updateRemainingTime(time: Int) {
-        _remainingTime.value = time
     }
 }
