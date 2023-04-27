@@ -22,7 +22,6 @@ private val LightColorPalette = lightColors(
     onBackground = PrimaryLightOnBackground
 )
 
-
 @Composable
 fun ClockAnimationTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),

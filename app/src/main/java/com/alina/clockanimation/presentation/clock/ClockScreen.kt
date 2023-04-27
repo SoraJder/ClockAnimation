@@ -1,30 +1,42 @@
-package com.alina.clockanimation.presentation.main
+package com.alina.clockanimation.presentation.clock
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import com.alina.clockanimation.R
 import com.alina.clockanimation.composables.AnalogClock
 import com.alina.clockanimation.composables.ColorDialog
 import com.alina.clockanimation.model.hoursMinutesColorList
 import com.alina.clockanimation.model.secondColorList
-import com.alina.clockanimation.navigation.Screens
 import com.alina.clockanimation.presentation.ui.theme.Typography
 import kotlinx.coroutines.delay
 
 @Composable
-fun MainScreen(navController: NavController) {
+fun ClockScreen() {
     var time by remember { mutableStateOf(System.currentTimeMillis()) }
-    val viewModel = viewModel { MainViewModel() }
+    val viewModel = viewModel { ClockViewModel() }
 
     //STATES OF DIALOG COMPONENTS
     val dialogHourHandState = remember { mutableStateOf(false) }
@@ -72,14 +84,14 @@ fun MainScreen(navController: NavController) {
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround,
+            horizontalArrangement = Arrangement.SpaceEvenly,
         ) {
             //Hour Hand
             Button(
                 onClick = {
                     dialogHourHandState.value = true
                 },
-                modifier = Modifier.size(84.dp, 40.dp)
+                modifier = Modifier.size(88.dp, 40.dp)
             ) {
                 Text(text = stringResource(R.string.hour))
             }
@@ -89,7 +101,7 @@ fun MainScreen(navController: NavController) {
                 onClick = {
                     dialogMinuteHandState.value = true
                 },
-                modifier = Modifier.size(84.dp, 40.dp)
+                modifier = Modifier.size(88.dp, 40.dp)
             ) {
                 Text(text = stringResource(R.string.minute))
             }
@@ -99,7 +111,7 @@ fun MainScreen(navController: NavController) {
                 onClick = {
                     dialogSecondHandState.value = true
                 },
-                modifier = Modifier.size(84.dp, 40.dp)
+                modifier = Modifier.size(88.dp, 40.dp)
             ) {
                 Text(text = stringResource(R.string.second))
             }
@@ -153,10 +165,6 @@ fun MainScreen(navController: NavController) {
                 timeInMillis = { time }
             )
         }
-        
-        Button(onClick = { navController.navigate(Screens.TIMER_SCREEN_ROUTE) }) {
-            Text(text = "Navigate")
-        }
 
         when (dialogHourHandState.value) {
             true -> {
@@ -171,6 +179,7 @@ fun MainScreen(navController: NavController) {
                     }
                 )
             }
+
             false -> Unit
         }
 
@@ -187,6 +196,7 @@ fun MainScreen(navController: NavController) {
                     }
                 )
             }
+
             false -> Unit
         }
 
@@ -204,6 +214,7 @@ fun MainScreen(navController: NavController) {
                     }
                 )
             }
+
             false -> Unit
         }
 
@@ -220,6 +231,7 @@ fun MainScreen(navController: NavController) {
                     }
                 )
             }
+
             false -> Unit
         }
 
@@ -236,6 +248,7 @@ fun MainScreen(navController: NavController) {
                     }
                 )
             }
+
             false -> Unit
         }
     }

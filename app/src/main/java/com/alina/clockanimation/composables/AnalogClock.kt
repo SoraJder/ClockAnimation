@@ -14,7 +14,8 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
-import java.util.*
+import java.util.Calendar
+import java.util.Date
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -68,15 +69,15 @@ fun AnalogClock(
             val angleRadDifference =
                 (((angleDegreeDifference * it) - 90f) * (PI / 180f)).toFloat()
             val lineLength = if (it % 5 == 0) circleRadius * .85f else circleRadius * .93f
-            val lineColour = if (it % 5 == 0)  hourMarkersColor else minuteMarkersColor
-            val lineWidth = if(it%5==0) 6f else 4f
+            val lineColour = if (it % 5 == 0) hourMarkersColor else minuteMarkersColor
+            val lineWidth = if (it % 5 == 0) 6f else 4f
             val startOffsetLine = Offset(
                 x = lineLength * cos(angleRadDifference) + size.center.x,
                 y = lineLength * sin(angleRadDifference) + size.center.y
             )
             val endOffsetLine = Offset(
-                x = (circleRadius - ((circleRadius * .05f) / 2) ) * cos(angleRadDifference) + size.center.x,
-                y = (circleRadius - ((circleRadius * .05f) / 2) ) * sin(angleRadDifference) + size.center.y
+                x = (circleRadius - ((circleRadius * .05f) / 2)) * cos(angleRadDifference) + size.center.x,
+                y = (circleRadius - ((circleRadius * .05f) / 2)) * sin(angleRadDifference) + size.center.y
             )
             drawLine(
                 color = lineColour,

@@ -1,4 +1,4 @@
-package com.alina.clockanimation.presentation.main
+package com.alina.clockanimation.presentation.clock
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
@@ -9,7 +9,7 @@ import com.alina.clockanimation.model.hoursMinutesColorMap
 import com.alina.clockanimation.model.secondColorMap
 
 //DATA PERSISTENCE
-class MainViewModel : ViewModel() {
+class ClockViewModel : ViewModel() {
 
     private val _hourHandColor: MutableState<Color> =
         mutableStateOf(hoursMinutesColorMap.values.first())

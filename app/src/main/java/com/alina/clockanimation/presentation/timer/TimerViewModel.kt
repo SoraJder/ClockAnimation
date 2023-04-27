@@ -6,24 +6,51 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 
 class TimerViewModel : ViewModel() {
-    private val _hour: MutableState<Int> = mutableStateOf(0)
-    val hour: State<Int> = _hour
 
-    private val _minute: MutableState<Int> = mutableStateOf(0)
-    val minute: State<Int> = _minute
+    private val _timeInSeconds: MutableState<Long> = mutableStateOf(0)
+    val timeInSeconds: State<Long> = _timeInSeconds
 
-    private val _second: MutableState<Int> = mutableStateOf(0)
-    val second: State<Int> = _second
+    private val _timerIsRunning: MutableState<Boolean> = mutableStateOf(false)
+    val timerIsRunning: State<Boolean> = _timerIsRunning
 
-    fun updateHour(hour: Int) {
-        _hour.value = hour
+    private val _alarmWasSet: MutableState<Boolean> = mutableStateOf(false)
+    val alarmWasSet: State<Boolean> = _alarmWasSet
+
+    private val _showSetButton: MutableState<Boolean> = mutableStateOf(true)
+    val showSetButton: State<Boolean> = _showSetButton
+
+    private val _showStartButton: MutableState<Boolean> = mutableStateOf(false)
+    val showStartButton: State<Boolean> = _showStartButton
+
+    private val _showStopButton: MutableState<Boolean> = mutableStateOf(false)
+
+    private val _showResumeButton: MutableState<Boolean> = mutableStateOf(false)
+    val showResumeButton: State<Boolean> = _showResumeButton
+    fun updateTimeInSeconds(seconds: Long) {
+        _timeInSeconds.value = seconds
     }
 
-    fun updateMinute(minute: Int) {
-        _minute.value = minute
+    fun updateTimerIsRunning(isRunning: Boolean) {
+        _timerIsRunning.value = isRunning
     }
 
-    fun updateSecond(second: Int) {
-        _second.value = second
+    fun updateAlarmWasSet(alarmWasSet: Boolean) {
+        _alarmWasSet.value = alarmWasSet
+    }
+
+    fun updateShowSetButton(showSetButton: Boolean) {
+        _showSetButton.value = showSetButton
+    }
+
+    fun updateShowStartButton(showStartButton: Boolean) {
+        _showStartButton.value = showStartButton
+    }
+
+    fun updateShowStopButton(showStopButton: Boolean) {
+        _showStopButton.value = showStopButton
+    }
+
+    fun updateShowResumeButton(showResumeButton: Boolean) {
+        _showResumeButton.value = showResumeButton
     }
 }
