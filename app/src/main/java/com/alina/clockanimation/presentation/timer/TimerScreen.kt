@@ -26,10 +26,7 @@ import com.maxkeppeler.sheets.duration.DurationDialog
 import com.maxkeppeler.sheets.duration.models.DurationConfig
 import com.maxkeppeler.sheets.duration.models.DurationFormat
 import com.maxkeppeler.sheets.duration.models.DurationSelection
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -119,24 +116,24 @@ fun TimerScreen() {
             }
         }
 
+
         if (timerIsRunning) {
-            LaunchedEffect(key1 = true, block = {
-                CoroutineScope(Dispatchers.IO).launch {
-                    while (selectedTimeInSeconds > 0) {
-                        selectedTimeInSeconds--
-                        viewModel.updateTimeInSeconds(selectedTimeInSeconds)
-                        delay(1000)
-                    }
-
-                    if (selectedTimeInSeconds.toInt() == 0) {
-                        viewModel.updateShowSetButton(true)
-                        viewModel.updateAlarmWasSet(false)
-                        viewModel.updateTimerIsRunning(false)
-
-                        TimerAlarmNotificationService(context).showNotification()
-                    }
+            LaunchedEffect(Unit) {
+                while (selectedTimeInSeconds > 0) {
+                    selectedTimeInSeconds--
+                    viewModel.updateTimeInSeconds(selectedTimeInSeconds)
+                    delay(1000)
                 }
-            })
+
+                if (selectedTimeInSeconds.toInt() == 0) {
+                    viewModel.updateShowSetButton(true)
+                    viewModel.updateAlarmWasSet(false)
+                    viewModel.updateTimerIsRunning(false)
+
+                    TimerAlarmNotificationService(context).showNotification()
+                }
+            }
+
 
             Button(
                 onClick = {
