@@ -16,8 +16,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.alina.clockanimation.R
 import com.alina.clockanimation.presentation.ui.theme.Typography
 import com.alina.clockanimation.utils.TimerAlarmNotificationService
 import com.alina.clockanimation.utils.Utils
@@ -67,7 +69,7 @@ fun TimerScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Timer Alarm",
+            text = stringResource(R.string.timer_alarm),
             style = Typography.h4,
             color = MaterialTheme.colors.primary,
             modifier = Modifier.padding(16.dp)
@@ -94,7 +96,7 @@ fun TimerScreen() {
                 modifier = Modifier.padding(16.dp)
             ) {
                 Text(
-                    text = "Set Alarm",
+                    text = stringResource(R.string.set_alarm),
                     color = Color.White
                 )
             }
@@ -110,7 +112,7 @@ fun TimerScreen() {
                 modifier = Modifier.padding(16.dp)
             ) {
                 Text(
-                    text = "Start Alarm",
+                    text = stringResource(R.string.start_alarm),
                     color = Color.White
                 )
             }
@@ -146,7 +148,7 @@ fun TimerScreen() {
                 modifier = Modifier.padding(16.dp)
             ) {
                 Text(
-                    text = "Stop Alarm",
+                    text = stringResource(R.string.stop_alarm),
                     color = Color.White
                 )
             }
@@ -162,7 +164,7 @@ fun TimerScreen() {
                 }
             ) {
                 Text(
-                    text = "Resume Alarm",
+                    text = stringResource(R.string.resume_alarm),
                     color = Color.White
                 )
             }

@@ -23,7 +23,6 @@ class TimerViewModel : ViewModel() {
     val showStartButton: State<Boolean> = _showStartButton
 
     private val _showStopButton: MutableState<Boolean> = mutableStateOf(false)
-    val showStopButton:State<Boolean> = _showStopButton
 
     private val _showResumeButton: MutableState<Boolean> = mutableStateOf(false)
     val showResumeButton: State<Boolean> = _showResumeButton
